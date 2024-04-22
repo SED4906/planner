@@ -36,6 +36,8 @@ pub fn draw_character(x: usize, y: usize, c: char, color: u32) {
         for px in x..x + 8 {
             if FONT[(c as u8) as usize * FONT_HEIGHT + py - y] & (128 >> (px - x)) != 0 {
                 draw_pixel(px, py, color);
+            } else {
+                draw_pixel(px, py, !color);
             }
         }
     }

@@ -11,10 +11,15 @@ limine_framebuffer = ["limine", "framebuffer"]
 limine = ["dep:limine"]
 framebuffer = []
 fbprint = ["framebuffer"]
+raspi5 = []
 
 [dependencies]
 spin = "0.9"
 limine = {version = "0.2", optional = true}
+aligned = "0.4"
 
 [target.'cfg(target_arch = "x86_64")'.dependencies]
 x86_64 = "0.15"
+
+[build-dependencies]
+build-target = "0.4"

@@ -1,9 +1,13 @@
+#![allow(internal_features)]
+#![feature(core_intrinsics)]
+#![feature(pointer_is_aligned_to)]
 #![no_std]
 #![no_main]
 
 pub mod architecture;
 pub mod graphics;
 pub mod textio;
+pub mod memory;
 
 use core::ptr::{null, null_mut};
 
