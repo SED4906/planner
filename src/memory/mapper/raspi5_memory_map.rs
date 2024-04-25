@@ -6,12 +6,10 @@ struct MemmapEntry {
     pub length: usize,
 }
 
-static USABLE_MEMORY: &[MemmapEntry] = &[
-    MemmapEntry {
-        base: 0,
-        length: 8*1024*1024*1024,
-    },
-];
+static USABLE_MEMORY: &[MemmapEntry] = &[MemmapEntry {
+    base: 0,
+    length: 8 * 1024 * 1024 * 1024,
+}];
 
 pub fn memmap_init() {
     for entry in USABLE_MEMORY {

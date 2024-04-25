@@ -20,11 +20,11 @@ static FREELIST: Mutex<Freelist> = Mutex::new(Freelist(PtrMut(null_mut())));
 
 pub fn freelist_alloc() -> *mut u8 {
     let mut freelist = FREELIST.lock();
-    let result = freelist.0.0;
+    let result = freelist.0 .0;
     if result.is_null() {
         return null_mut();
     }
-    freelist.0 = unsafe {PtrMut((*result).0.0)};
+    freelist.0 = unsafe { PtrMut((*result).0 .0) };
     result as *mut u8
 }
 
@@ -33,7 +33,9 @@ pub fn freelist_dealloc(ptr: *mut u8) {
     if !ptr.is_aligned_to(mm::PAGE_SIZE) {
         return;
     }
-    unsafe{(*(ptr as *mut *mut Freelist)) = freelist.0.0;}
+    unsafe {
+        (*(ptr as *mut *mut Freelist)) = freelist.0 .0;
+    }
     freelist.0 = PtrMut(ptr as *mut Freelist);
 }
 

@@ -1,8 +1,8 @@
+use crate::PtrMut;
 use aligned::Aligned;
 use aligned::A16;
 use core::intrinsics::volatile_load;
 use core::intrinsics::volatile_store;
-use crate::PtrMut;
 
 const PERIPHERAL_BASE: u64 = 0x107C000000;
 
@@ -24,7 +24,7 @@ static mut HEIGHT: u32 = 0;
 static mut PITCH: u32 = 0;
 static mut IS_RGB: u32 = 0;
 
-pub static mut MBOX: Aligned<A16,[u32;36]> = Aligned([0;36]);
+pub static mut MBOX: Aligned<A16, [u32; 36]> = Aligned([0; 36]);
 const VIDEOCORE_MBOX: u64 = PERIPHERAL_BASE + 0x13880;
 const MBOX_READ: u64 = VIDEOCORE_MBOX + 0;
 const MBOX_POLL: u64 = VIDEOCORE_MBOX + 0x10;
@@ -46,14 +46,14 @@ fn mmio_read(reg: u64) -> u32 {
 }
 
 pub unsafe fn mbox_call(ch: u8) -> bool {
-    let r: u32 = (unsafe{MBOX.as_ptr() as u32} & !0xF) | ((ch & 0xF) as u32);
+    let r: u32 = (unsafe { MBOX.as_ptr() as u32 } & !0xF) | ((ch & 0xF) as u32);
     while mmio_read(MBOX_STATUS) & MBOX_FULL != 0 {}
     mmio_write(MBOX_WRITE, r);
 
     loop {
         while mmio_read(MBOX_STATUS) & MBOX_EMPTY != 0 {}
         if r == mmio_read(MBOX_READ) {
-            return unsafe{MBOX[1]} == MBOX_RESPONSE;
+            return unsafe { MBOX[1] } == MBOX_RESPONSE;
         }
     }
 }
@@ -61,7 +61,7 @@ pub unsafe fn mbox_call(ch: u8) -> bool {
 pub fn gfx_init() {
     let framebuffer = &mut *super::framebuffer::FRAMEBUFFER.lock();
     unsafe {
-        MBOX[0] = 35*4;
+        MBOX[0] = 35 * 4;
         MBOX[1] = MBOX_REQUEST;
 
         MBOX[2] = MBOX_TAG_SETPHYWH;
@@ -69,7 +69,7 @@ pub fn gfx_init() {
         MBOX[4] = 0;
         MBOX[5] = 1920;
         MBOX[6] = 1080;
-        
+
         MBOX[7] = MBOX_TAG_SETVIRTWH;
         MBOX[8] = 8;
         MBOX[9] = 0;

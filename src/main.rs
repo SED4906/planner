@@ -2,7 +2,7 @@
 #![no_main]
 
 use planner::architecture::cpu;
-use planner::graphics::gfx;
+use planner::graphics::{framebuffer, gfx};
 use planner::memory::mm::{kernel_pagemap, map_to};
 use planner::memory::{freelist_alloc, mm, PageFlags};
 use planner::{print, println};
@@ -13,16 +13,11 @@ fn _start() -> ! {
     gfx::gfx_init();
     mm::memory_init();
     println!("Hello, world!");
-    loop {
-        let page = freelist_alloc();
-        if page.is_null() {break;}
-        print!("{} ", page as usize);
-    }
     cpu::wait_forever();
 }
 
 #[panic_handler]
 fn rust_panic(info: &core::panic::PanicInfo) -> ! {
-	println!("{info}");
-	cpu::hang_forever();
+    println!("{info}");
+    cpu::hang_forever();
 }

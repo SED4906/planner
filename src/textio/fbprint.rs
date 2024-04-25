@@ -1,5 +1,5 @@
-use spin::Mutex;
 use crate::graphics::framebuffer::{draw_character, FRAMEBUFFER};
+use spin::Mutex;
 
 static CHAR_X: Mutex<usize> = Mutex::new(0);
 static CHAR_Y: Mutex<usize> = Mutex::new(0);

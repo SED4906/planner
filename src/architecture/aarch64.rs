@@ -33,7 +33,7 @@ pub fn cpu_init() {
         }
 
         core::slice::from_raw_parts_mut(__bss_start as *mut u8, __bss_size).fill(0);
-        
+
         let paging = _end as *mut usize;
         for page in 0..16 {
             *paging.add(page) = (0x1000000000 * page)
@@ -65,16 +65,14 @@ pub fn cpu_init() {
         let mut sctlr: usize;
         asm!("dsb ish", "isb" ,"mrs {}, sctlr_el2", out(reg) sctlr);
         sctlr |= 0xC00800;
-        sctlr &= !(
-            (1<<25) |   // clear EE, little endian translation tables
+        sctlr &= !((1<<25) |   // clear EE, little endian translation tables
             (1<<24) |   // clear E0E
             (1<<19) |   // clear WXN
             (1<<12) |   // clear I, no instruction cache
             (1<<4) |    // clear SA0
             (1<<3) |    // clear SA
             (1<<2) |    // clear C, no cache at all
-            (1<<1)
-        );
+            (1<<1));
         sctlr |= 1;
         asm!("msr sctlr_el2, {}", "isb", in(reg) sctlr);
     }

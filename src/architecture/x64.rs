@@ -1,7 +1,14 @@
 use core::arch::asm;
 
 use spin::Mutex;
-use x86_64::{instructions::tables::load_tss, registers::segmentation::{Segment, CS, SS}, structures::{gdt::{Descriptor, GlobalDescriptorTable, SegmentSelector}, tss::TaskStateSegment}};
+use x86_64::{
+    instructions::tables::load_tss,
+    registers::segmentation::{Segment, CS, SS},
+    structures::{
+        gdt::{Descriptor, GlobalDescriptorTable, SegmentSelector},
+        tss::TaskStateSegment,
+    },
+};
 
 pub fn wait_forever() -> ! {
     unsafe {
@@ -29,7 +36,7 @@ pub fn cpu_init() {
     gdt.append(Descriptor::user_code_segment());
     gdt.append(Descriptor::user_data_segment());
     gdt.append(Descriptor::tss_segment(&TSS));
-    unsafe{
+    unsafe {
         gdt.load_unsafe();
         CS::set_reg(SegmentSelector(0x08));
         SS::set_reg(SegmentSelector(0x10));

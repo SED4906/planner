@@ -6,8 +6,8 @@
 
 pub mod architecture;
 pub mod graphics;
-pub mod textio;
 pub mod memory;
+pub mod textio;
 
 use core::ptr::{null, null_mut};
 
