@@ -3,7 +3,8 @@
 
 use planner::architecture::cpu;
 use planner::graphics::gfx;
-use planner::memory::{freelist_alloc, mm};
+use planner::memory::mm::{kernel_pagemap, map_to};
+use planner::memory::{freelist_alloc, mm, PageFlags};
 use planner::{print, println};
 
 #[no_mangle]

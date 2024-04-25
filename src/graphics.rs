@@ -1,12 +1,10 @@
 #[cfg(feature = "framebuffer")]
 pub mod framebuffer;
-#[cfg(not(feature = "raspi5"))]
-#[cfg(feature = "limine_framebuffer")]
+#[cfg(feature = "limine")]
 pub mod limine_framebuffer;
-#[cfg(not(feature = "raspi5"))]
-#[cfg(feature = "limine_framebuffer")]
+#[cfg(feature = "limine")]
 pub use limine_framebuffer as gfx;
 #[cfg(feature = "raspi5")]
-pub mod videocore_framebuffer;
+pub mod raspi5_framebuffer;
 #[cfg(feature = "raspi5")]
-pub use videocore_framebuffer as gfx;
+pub use raspi5_framebuffer as gfx;

@@ -9,6 +9,8 @@ pub mod aarch64;
 #[cfg(target_arch = "aarch64")]
 pub use aarch64 as mm;
 
+pub mod mapper;
+
 use crate::PtrMut;
 use core::ptr::null_mut;
 
@@ -33,4 +35,13 @@ pub fn freelist_dealloc(ptr: *mut u8) {
     }
     unsafe{(*(ptr as *mut *mut Freelist)) = freelist.0.0;}
     freelist.0 = PtrMut(ptr as *mut Freelist);
+}
+
+pub struct PageFlags {
+    pub present: bool,
+    pub read_write: bool,
+    pub user_writable: bool,
+    pub accessed: bool,
+    pub huge_page: bool,
+    pub no_execute: bool,
 }

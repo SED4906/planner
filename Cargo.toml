@@ -6,8 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [features]
-default = ["limine_framebuffer", "fbprint"]
-limine_framebuffer = ["limine", "framebuffer"]
+default = ["fbprint"]
 limine = ["dep:limine"]
 framebuffer = []
 fbprint = ["framebuffer"]
